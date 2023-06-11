@@ -1,0 +1,13 @@
+{
+  "prettier.bracketSpacing": true,
+  "editor.formatOnSave": true,
+  "prettier.embeddedLanguageFormatting": "off",
+  "prettier.enable": false,
+  "editor.formatOnPaste": false,
+  "prettier.arrowParens": "always",
+  "prettier.bracketSameLine": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
+}
