@@ -14,14 +14,14 @@ export default {
             name: 'slug',
             type: 'slug',
             options: {
-              source: 'title',
-              maxLength: 200, // will be ignored if slugify is set
-              slugify: (input:any) => input
-                                   .toLowerCase()
-                                   .replace(/\s+/g, '-')
-                                   .slice(0, 200)
+            source: 'title',
+            maxLength: 200, // will be ignored if slugify is set
+            slugify: (input:any) => input
+            .toLowerCase()
+            .replace(/\s+/g, '-')
+            .slice(0, 200)
             }
-          } 
+        }, 
         {
             name: 'description',
             type: 'array',
