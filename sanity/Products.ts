@@ -14,7 +14,7 @@ export default {
             name: 'slug',
             type: 'slug',
             options: {
-            source: 'title',
+            source: 'ProductName',
             maxLength: 200, // will be ignored if slugify is set
             slugify: (input:any) => input
             .toLowerCase()
