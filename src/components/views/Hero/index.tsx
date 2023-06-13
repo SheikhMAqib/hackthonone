@@ -7,7 +7,7 @@ const Hero = () => {
 
     const btnText = "Start \n shopping"
     return (
-        <div className="py-5 flex items-center justify-between">
+        <div className="py-5 flex items-center justify-between px-2">
             {/* right side */}
             <div className="space-y-6 max-w-sm ">
                 <button

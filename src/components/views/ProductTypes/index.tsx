@@ -1,6 +1,8 @@
 const ProductType = () => {
     return (
-        <div>ProductType</div>
+        <div className="px-16 py-2">
+            <div></div>
+        </div>
     )
 }
 
