@@ -35,7 +35,7 @@ const Hero = () => {
                     <div className="w-14 md:w-28">
                         <Image width={90} height={90} src={"https://full-stack-ecommerce-clothing-web.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FFeatured3.6076521d.png&w=128&q=75"} alt="versace" />
                     </div>
-                    <div className="w-4 md:w-28">
+                    <div className="w-14 md:w-28">
                         <Image width={90} height={90} src={"https://full-stack-ecommerce-clothing-web.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FFeatured4.0489f1fc.png&w=128&q=75"} alt="instyle" />
                     </div>
                 </div>

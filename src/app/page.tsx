@@ -1,5 +1,6 @@
 import { responseType } from "@/components/utils/ProductsDataArrayAndType";
 import Hero from "@/components/views/Hero";
+import Jewellery from "@/components/views/Jewellery";
 import ProductCarousel from "@/components/views/ProductCarousoal";
 import ProductsType from "@/components/views/ProductTypes";
 
@@ -26,5 +27,6 @@ export default async function Home() {
     <Hero />
     <ProductsType />
     <ProductCarousel ProductData={result} />
+    <Jewellery />
   </div>;
 }
