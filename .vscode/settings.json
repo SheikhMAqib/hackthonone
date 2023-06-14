@@ -11,7 +11,13 @@
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "cSpell.words": [
+    "Carousoal",
+    "FORAPI",
     "setcart",
     "Webp"
-  ]
+  ],
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "typescript.format.enable": true
 }
