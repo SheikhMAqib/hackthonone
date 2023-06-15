@@ -62,7 +62,7 @@ export const NavbarArray: Array<NavbarItemType> = [
   },
   {
     label: "All Product",
-    href: "/all product",
+    href: "/products",
     isDropDown: false,
   },
 ];
