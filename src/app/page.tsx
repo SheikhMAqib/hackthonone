@@ -8,7 +8,7 @@ import ProductsType from "@/components/views/ProductTypes";
 
 
 async function fetchAllProductsData() {
-  let res = await fetch(`https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-06-07/data/query/production?query=*[_type == "products"]`, {
+  let res = await fetch(`https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2023-06-07/data/query/production?query=*%5B_type%20%3D%3D%20%22products%22%20%5D%0A%0A%0A%0A%20`, {
     next: {
       revalidate: 60
     }

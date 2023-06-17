@@ -12,10 +12,23 @@ import React from "react";
 import DropDown from "./subComponents/DropDown";
 
 import Expand from "./subComponents/Expand";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter()
   const [isNavbarOpen, setNavbarOpen] = useState<boolean>(false);
   const [cartItemNumber, setcartItemNumber] = useState<number>(0)
+  const [searchQuery, setSearchQuery] = useState(" ")
+
+  function handleSearchCalledFunc(e: any) {
+    console.log(e.key, e.keyCode)
+    if (e.key === "Enter" && e.keyCode === 13) {
+      router.push(`/search/${searchQuery}`)
+
+    }
+
+  }
+
   return (
     <div className="sticky top-0 backdrop-blur-lg bg-opacityDownColor z-50">
       <div className=" py-5 flex justify-between items-center gap-8 ">
@@ -42,9 +55,14 @@ const Navbar = () => {
           {/* search bar */}
 
           <div className="border flex items-center text-gray-700 px-3 rounded-md ">
-            <BiSearch />
+            <Link href={`/search/${searchQuery}`}>
+              <BiSearch />
+            </Link>
             <input
               type="text"
+              value={searchQuery}
+              onKeyDown={handleSearchCalledFunc}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="focus:outline-none pl-1 py-1 w-80 "
               placeholder="Search in Our Store"
             />
