@@ -4,6 +4,7 @@ import { FC, useState } from "react"
 import { client } from "../../../../sanity/lib/client";
 import Image from "next/image";
 import imageUrlBuilder from '@sanity/image-url'
+import { BsCart2 } from "react-icons/bs";
 
 const builder: any = imageUrlBuilder(client);
 function urlFor(source: any) {
@@ -21,8 +22,6 @@ const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
             setQuantity(quantity - 1);
         }
     };
-
-
 
     return (
         <div className=" flex flex-col lg:flex-row justify-center items-center">
@@ -76,8 +75,17 @@ const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
                             onClick={incrementTheQuantity}
                             className="select-none cursor-pointer flex justify-center items-center w-9 h-9 rounded-full border border-gray-800">+</div>
                     </div>
-
                 </div>
+                <div className="flex gap-x-8 items-center">
+                    <button className=" flex items-center  text-white bg-gray-900 border border-gray-500 px-4 py-2">
+                        <BsCart2 />
+                        &nbsp;
+                        &nbsp;
+                        Add to Cart
+                    </button>
+                    <p className="text-2xl font-semibold">${item.price}{".00"}</p>
+                </div>
+
             </div>
         </div>
     )
