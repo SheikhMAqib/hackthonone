@@ -1,19 +1,27 @@
 "use client"
 import { imagesType, oneProductType } from "@/components/utils/ProductsDataArrayAndType"
-import { FC, useState } from "react"
+import { FC, useContext, useState } from "react"
 import { client } from "../../../../sanity/lib/client";
 import Image from "next/image";
 import imageUrlBuilder from '@sanity/image-url'
 import { BsCart2 } from "react-icons/bs";
+import { cartContext } from "@/global/context";
 
 const builder: any = imageUrlBuilder(client);
+
 function urlFor(source: any) {
     return builder.image(source)
 }
+
+
 const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
+    let { state, dispatch } = useContext(cartContext);
+
+
     const [imageForPreviewOfSelected, setImageForPreviewOfSelected] = useState<string>(item.image[0]._key);
     const [quantity, setQuantity] = useState(1);
 
+    //  increment Decrement 
     function incrementTheQuantity() {
         setQuantity(quantity + 1);
     };
@@ -22,6 +30,19 @@ const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
             setQuantity(quantity - 1);
         }
     };
+
+    // AddTocart 
+    function handleAddToCart() {
+        let dataAddToInCart = {
+            productId: item._id,
+            Quantity: quantity,
+        }
+        dispatch({ payload: "addToCart", data: dataAddToInCart })
+    }
+
+
+
+
 
     return (
         <div className=" flex flex-col lg:flex-row justify-center items-center">
@@ -77,7 +98,7 @@ const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
                     </div>
                 </div>
                 <div className="flex gap-x-8 items-center">
-                    <button className=" flex items-center  text-white bg-gray-900 border border-gray-500 px-4 py-2">
+                    <button onClick={() => handleAddToCart()} className=" flex items-center  text-white bg-gray-900 border border-gray-500 px-4 py-2">
                         <BsCart2 />
                         &nbsp;
                         &nbsp;
