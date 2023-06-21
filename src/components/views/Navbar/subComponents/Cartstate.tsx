@@ -4,16 +4,18 @@ import { BsCart2 } from "react-icons/bs"
 
 
 const Cartstate = () => {
-    let { state } = useContext(cartContext);
+    let data = localStorage.getItem("cart") as string;
 
     return (
-        <div className="flex-shrink-0 relative h-11 w-11 bg-gray-300 rounded-full flex items-center justify-center">
+        <div className="flex-shrink-0 relative h-11 w-11 bg-gray-300 rounded-full flex items-center justify-center" >
             <div className=" w-4 h-4 absolute top-1 right-2 bg-red-400 text-xs rounded-full font-light flex justify-center items-center">
-                {state.cart.length}
+                {JSON.parse(data).length}
             </div>
             <BsCart2 size={24} />
-        </div>
+
+        </div >
     )
+
 }
 
 export default Cartstate
