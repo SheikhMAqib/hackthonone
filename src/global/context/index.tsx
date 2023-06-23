@@ -7,12 +7,7 @@ export const cartContext = createContext<any>(null);
 const ContextWrapper = ({ children }: { children: ReactNode }) => {
 
     const iniatizilerOfCart = {
-        cart: [
-            {
-                ProductId: "",
-                Quantity: 2,
-            }
-        ],
+        cart: [],
     }
 
     const [state, dispatch] = useReducer(cartReducer, iniatizilerOfCart)
