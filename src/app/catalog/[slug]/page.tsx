@@ -34,7 +34,8 @@ export async function generateStaticParams() {
             revalidate: 60
         }
     }).then((res: any) => res.json())
-    return res.result.map((item: oneProductType) => { slug: item.slug });
+    return res.result.map((item: oneProductType) => { slug: item.slug }); 57.08 class23
+
 };
 
 
