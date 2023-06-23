@@ -12,14 +12,16 @@ const CartComp = async ({ allProductsOfStore }: { allProductsOfStore: Array<oneP
 
     let { state } = useContext(cartContext)
 
-
+    const [refresh, setRefresh] = useState(false)
     const [allProductsForCart, setAllProductsForCart] = useState<Array<oneProductType> | []>([])
-    console.log("asadasdas:", state);
+    setTimeout(() => {
+        setRefresh(true);
+    }, 5000);
 
     state?.cart.forEach((element: { productId: string, quantity: number }) => {
 
-        for (let index = 0; index < allProductsOfStore.result.length; index++) {
-            const item: oneProductType = allProductsOfStore.result[index]
+        for (let index = 0; index < allProductsOfStore.length; index++) {
+            const item: oneProductType = allProductsOfStore[index]
             if (item._id === element.productId) {
                 setAllProductsForCart([...allProductsForCart, item])
             }
