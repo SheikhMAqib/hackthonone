@@ -11,13 +11,13 @@ async function fetchAllStoreProduct() {
 
 
 const Cart = async () => {
-    let allProductsOfStore = await fetchAllStoreProduct()  // all product sanity
+    let allProductsOfStore = await fetchAllStoreProduct()
 
     return (
-        <ContextWrapper>
-            {/* @ts-ignore */}
-            <CartComp allProductsOfStore={allProductsOfStore} />
-        </ContextWrapper>
+
+        < CartComp allProductsOfStore={allProductsOfStore.result} />
+
+
     )
 }
 

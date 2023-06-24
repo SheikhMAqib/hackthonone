@@ -22,13 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Wrapper>
-          <Navbar />
-          <div className="min-h-screen">
-            {children}
-          </div>
-          <Footer />
-        </Wrapper>
+        {/* <Wrapper>
+          <Navbar /> */}
+        <div className="min-h-screen">
+          {children}
+        </div>
+        {/* <Footer />
+        </Wrapper> */}
       </body>
     </html>
   );
