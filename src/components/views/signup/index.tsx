@@ -13,10 +13,7 @@ type SignupFormData = {
 
 const SignupFormComp = () => {
     const first = useContext(cartContext)
-<<<<<<< HEAD
     console.log(first)
-=======
->>>>>>> cf0ec9f630316655f13d0d9962a8499b0c7c4b89
     const [formData, setFormData] = useState<SignupFormData>({
         fullName: '',
         email: '',
@@ -44,11 +41,7 @@ const SignupFormComp = () => {
                         Full Name
                     </label>
                     <input
-<<<<<<< HEAD
                         className={`appearance-none border border-purple-300 rounded w-full md:w-96 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline 'border-red-500' : ''
-=======
-                        className={`appearance-none border border-purple-300 rounded w-full md:w-96 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.fullName ? 'border-red-500' : ''
->>>>>>> cf0ec9f630316655f13d0d9962a8499b0c7c4b89
                             }`}
                         type="text"
                         name="fullName"
@@ -64,11 +57,7 @@ const SignupFormComp = () => {
                         Email
                     </label>
                     <input
-<<<<<<< HEAD
                         className={`appearance-none border border-purple-300 rounded w-full md:w-96 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline 'border-red-500' : ''
-=======
-                        className={`appearance-none border border-purple-300 rounded w-full md:w-96 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.email ? 'border-red-500' : ''
->>>>>>> cf0ec9f630316655f13d0d9962a8499b0c7c4b89
                             }`}
                         type="email"
                         name="email"
@@ -84,11 +73,7 @@ const SignupFormComp = () => {
                         Password
                     </label>
                     <input
-<<<<<<< HEAD
                         className={`appearance-none border border-purple-300 rounded w-full md:w-96 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  'border-red-500' : ''
-=======
-                        className={`appearance-none border border-purple-300 rounded w-full md:w-96 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.password ? 'border-red-500' : ''
->>>>>>> cf0ec9f630316655f13d0d9962a8499b0c7c4b89
                             }`}
                         type="password"
                         name="password"

@@ -1,12 +1,12 @@
-import SignInForm from "@/components/views/SignInForm"
-import ContextWrapper from "@/global/context"
 
-const SignIn = () => {
-    return (
-        <ContextWrapper>
-            <SignInForm />
-        </ContextWrapper>
-    )
-}
+// import ContextWrapper from "@/global/context"
 
-export default SignIn
+// const SignIn = () => {
+//     return (
+//         <ContextWrapper>
+//             <SignInForm />
+//         </ContextWrapper>
+//     )
+// }
+
+// export default SignIn
