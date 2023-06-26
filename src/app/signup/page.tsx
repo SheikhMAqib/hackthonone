@@ -1,4 +1,5 @@
-import SignupFormComp from "@/components/views/Signup";
+
+import SignupFormComp from "@/components/views/signup";
 import ContextWrapper from "@/global/context";
 
 
