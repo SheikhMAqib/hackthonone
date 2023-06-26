@@ -41,7 +41,7 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
                         allProductsForCart?.map((item: oneProductType, index: number) => (
                             <div key={index} className=" flex flex-shrink-0  gap-6 ">
                                 <div className="w-[14rem]">
-                                    <Image className="rounded-xl" width={1000} height={1000} src="https://cdn.sanity.io/images/dow10h3v/production/a6a38f6a1f31dafe5f3294a4384f865b7d25a344-370x394.png" alt="" />
+                                    <Image className="rounded-xl" width={1000} height={1000} src="https://cdn.sanity.io/images/dow10h3v/production/a6a38f6a1f31dafe5f3294a4384f865b7d25a344-370x394.png" alt="Nothing" />
                                 </div>
                                 <div className=" space-y-1 md:space-y-3 w-full ">
                                     <div className="flex justify-between">
