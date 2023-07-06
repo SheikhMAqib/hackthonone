@@ -10,6 +10,8 @@ const builder = imageUrlBuilder(client);
 function urlFor(source: any) {
     return builder.image(source)
 }
+
+
 const Card: FC<{ singleProductData: oneProductType }> = ({ singleProductData }) => {
     if (singleProductData.image) {
         return (
