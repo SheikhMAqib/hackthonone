@@ -14,6 +14,13 @@ const nextConfig = {
                 port: "",
                 pathname: "/**",
             },
+            {
+                protocol: "https",
+                hostname: "resume-cv-sheikhmaqib.vercel.app",
+                port: "",
+                pathname: "/**",
+            },
+      
         ],
             
         },

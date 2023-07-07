@@ -2,7 +2,7 @@
 import { ReactNode, createContext, useEffect, useReducer, useState } from "react";
 import { cartReducer } from "../reducer";
 import { auth } from "@/lib/firebase";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
 export const cartContext = createContext<any>(null);
@@ -48,12 +48,14 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
                     email: user.email,
                     uuid: user.uid,
                     photoUrl: user.photoUrl,
+                    emailVerified: user.emailVerified,
                 })
             } else {
                 setUserData(null);
             }
         });
     }, [])
+    console.log(user)
 
     let provider = new GoogleAuthProvider()
 
@@ -66,6 +68,7 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
                     email: userData.user.email,
                     uuid: userData.user.uid,
                     photoUrl: userData.user.photoUrl,
+                    emailVerified: userData.user.emailVerified,
                 });
                 router.push("/");
             }
@@ -77,11 +80,9 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password).then((res: any) => {
             setLoading(false);
-            router.push("/");
         }).catch((res: any) => {
-            setErrorViaUserCredential({
-                signUpError: "Error occured via signup with email and password"
-            })
+            console.log("error:", res);
+            setLoading(false)
         });
         setLoading(false);
 
@@ -107,11 +108,36 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
         signOut(auth);
         setLoading(false);
         window.location.reload()
+    };
 
+    function sendEmailVerificationCode() {
+        setLoading(true);
+        if (user) {
+            sendEmailVerification(user).then((res: any) => {
+                console.log("sending")
+                window.location.href = "/"
+            })
+            setLoading(false);
+        }
     }
 
+    function updateUserNamePhoto(userName: string, photoURL?: string) {
+        setLoading(true);
+        if (user) {
+            updateProfile(user, {
+                displayName: userName, photoURL: "https://resume-cv-sheikhmaqib.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fhero-poster.81745560.jpg&w=640&q=75"
+            }).then(() => {
+                setLoading(false);
+            }).catch((error: any) => {
+                console.log(error)
+                setLoading(false);
+            });
+        }
+    }
+
+
     return (
-        <cartContext.Provider value={{ state, dispatch, userData, signUpUser, signUpViaGoogle, signInUser, LogOut, loading }}>
+        <cartContext.Provider value={{ state, dispatch, updateUserNamePhoto, userData, sendEmailVerificationCode, signUpUser, signUpViaGoogle, signInUser, LogOut, loading }}>
             {children}
         </cartContext.Provider>
     )
