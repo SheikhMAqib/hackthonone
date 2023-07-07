@@ -4,6 +4,7 @@ import { Maven_Pro } from "next/font/google";
 import Wrapper from "@/components/shared/Wrapper";
 import Footer from "@/components/views/Footer";
 import TopLabel from "@/components/views/TopLabel";
+import { useRouter } from "next/navigation";
 
 const inter = Maven_Pro({
   subsets: ["latin"],
@@ -20,6 +21,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html lang="en">
       <body className={inter.className}>

@@ -22,14 +22,14 @@ type SignupFormData = {
 const SignupFormComp = () => {
     let { errorsOfFirebase, signUpUser, userData, signUpViaGoogle, loading, sendEmailVerificationCode } = useContext(cartContext);
 
-    // useEffect(() => {
-    //     if (userData) {
-    //         window.location.href = "/"
-    //     }
-    //     if (errorsOfFirebase.errorMessage.length > 0) {
-    //         notificationError(errorsOfFirebase.errorMessage)
-    //     };
-    // }, [userData, errorsOfFirebase]);
+    useEffect(() => {
+        if (userData) {
+            window.location.href = "/"
+        }
+        //     if (errorsOfFirebase.errorMessage.length > 0) {
+        //         notificationError(errorsOfFirebase.errorMessage)
+        // };
+    }, [userData, errorsOfFirebase]);
 
 
     const [formData, setFormData] = useState<SignupFormData>({

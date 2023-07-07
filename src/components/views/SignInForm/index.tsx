@@ -14,14 +14,15 @@ const SignInForm = () => {
     let { signUpViaGoogle, userData, signInUser, loading, errorsOfFirebase } = useContext(cartContext)
     const [formData, setFormData] = useState({ email: '', password: '' });
 
-    // useEffect(() => {
-    // if (userData) {
-    //     window.location.href = "/"
-    // }
-    // if (errorsOfFirebase.errorMessage.length > 0) {
-    //     notificationError(errorsOfFirebase.errorMessage)
-    // };
-    // }, [userData, errorsOfFirebase]);
+    useEffect(() => {
+        if (userData) {
+            window.location.href = "/"
+        }
+        // if (errorsOfFirebase.errorMessage.length > 0) {
+        //     notificationError(errorsOfFirebase.errorMessage)
+        // };
+    }, [userData, errorsOfFirebase]);
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
