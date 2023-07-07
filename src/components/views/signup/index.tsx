@@ -1,8 +1,9 @@
 "use client"
-// import { ImGoogle } from "react-icons/im"
+import { ImGoogle } from "react-icons/im"
 import { cartContext } from '@/global/context';
 // import Link from 'next/link';
 import { useContext, useEffect, useState, } from 'react';
+import Link from "next/link";
 // import toast, { Toaster } from "react-hot-toast";
 
 type SignupFormData = {
@@ -39,9 +40,10 @@ const SignupFormComp = () => {
 
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-    // function handleSignupWithGoogle() {
-    //     signUpViaGoogle();
-    // }
+    function handleSignupWithGoogle() {
+        console.log("callleds")
+        signUpViaGoogle();
+    }
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prevData: any) => ({
@@ -137,7 +139,7 @@ const SignupFormComp = () => {
                         <p className="text-red-500 text-xs italic">{errors.password}</p>
                     )}
                 </div>
-                {/* <div className="flex items-center justify-center py-3">
+                <div className="flex items-center justify-center py-3">
                     <button
                         className="border flex gap-2 items-center justify-center bg-purple-100 hover:bg-purple-200 text-gray-700 font-semibold py-2 px-6 rounded focus:outline-none focus:shadow-outline"
                         type="button"
@@ -146,9 +148,9 @@ const SignupFormComp = () => {
                         <ImGoogle size={25} fill="#ced70c" />
                         SignUp With Google
                     </button>
-                </div> */}
+                </div>
                 <div className="flex items-center justify-between space-x-2">
-                    {/* <Link className='text-blue-400 text-sm' href={"/login"}>Already have an account?</Link> */}
+                    <Link className='text-blue-400 text-sm' href={"/login"}>Already have an account?</Link>
                     <button
                         disabled={loading}
                         className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 md:px-5 rounded focus:outline-none focus:shadow-outline"

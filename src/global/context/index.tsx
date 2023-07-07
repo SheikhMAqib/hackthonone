@@ -2,12 +2,22 @@
 import { ReactNode, createContext, useEffect, useReducer, useState } from "react";
 import { cartReducer } from "../reducer";
 import { auth } from "@/lib/firebase";
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 export const cartContext = createContext<any>(null);
 
+interface indexForError {
+    [key: string]: string
+}
+
+
+
 const ContextWrapper = ({ children }: { children: ReactNode }) => {
+    const router = useRouter();
     const [userData, setUserData] = useState<any>()
+    const [errorViaUserCredential, setErrorViaUserCredential] = useState<indexForError | "">("")
+    const [loading, setLoading] = useState(false);
     const iniatizilerOfCart = {
         cart: [],
     }
@@ -28,13 +38,16 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
 
 
     let user = auth.currentUser;
+
     useEffect(() => {
         onAuthStateChanged(auth, (user: any) => {
+            console.log(user)
             if (user) {
                 setUserData({
                     displayName: user.displayName,
                     email: user.email,
-                    uuid: user.uid
+                    uuid: user.uid,
+                    photoUrl: user.photoUrl,
                 })
             } else {
                 setUserData(null);
@@ -42,22 +55,63 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
         });
     }, [])
 
+    let provider = new GoogleAuthProvider()
+
+    function signUpViaGoogle() {
+        setLoading(true)
+        return signInWithPopup(auth, provider).then((userData: any) => {
+            if (userData) {
+                setUserData({
+                    displayName: userData.user.displayName,
+                    email: userData.user.email,
+                    uuid: userData.user.uid,
+                    photoUrl: userData.user.photoUrl,
+                });
+                router.push("/");
+            }
+            setLoading(false)
+        })
+    }
 
     function signUpUser(email: string, password: string) {
-        return createUserWithEmailAndPassword(auth, email, password);
+        setLoading(true);
+        return createUserWithEmailAndPassword(auth, email, password).then((res: any) => {
+            setLoading(false);
+            router.push("/");
+        }).catch((res: any) => {
+            setErrorViaUserCredential({
+                signUpError: "Error occured via signup with email and password"
+            })
+        });
+        setLoading(false);
+
     }
 
 
     function signInUser(email: string, password: string) {
-        return signInWithEmailAndPassword(auth, email, password);
+        setLoading(true);
+        return signInWithEmailAndPassword(auth, email, password).then((res: any) => {
+            setLoading(false);
+            router.push("/");
+            console.log("res :", res);
+        }).catch((res: any) => {
+            setErrorViaUserCredential({
+                signInError: "Error occured via signin with email and password"
+            })
+        });
+        setLoading(false);
     }
 
     function LogOut() {
-        signOut(auth)
+        setLoading(true);
+        signOut(auth);
+        setLoading(false);
+        window.location.reload()
+
     }
 
     return (
-        <cartContext.Provider value={{ state, dispatch, signUpUser }}>
+        <cartContext.Provider value={{ state, dispatch, userData, signUpUser, signUpViaGoogle, signInUser, LogOut, loading }}>
             {children}
         </cartContext.Provider>
     )
