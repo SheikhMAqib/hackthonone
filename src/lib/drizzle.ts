@@ -13,4 +13,3 @@ export type typeOfCartTable = InferModel<typeof cartTableDrizzle>;
 
 export const db = drizzle(sql);
 
-

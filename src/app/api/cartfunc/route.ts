@@ -37,7 +37,27 @@ export async function PUT(req: NextRequest) {
     try {
         let responce = await db.update(cartTableDrizzle).set(request).where(eq(cartTableDrizzle.product_id, request.product_id)).returning();
         return NextResponse.json({ responce })
+    } catch (error) {
+        console.log("error : ", (error as { message: string }).message)
+        return NextResponse.json({ error })
+    }
+}
 
+export async function DELETE(req: NextRequest) {
+    let url = req.nextUrl.searchParams;
+
+    try {
+        if (url.has("product_id") && url.has("user_id")) {
+            let responce = await db.delete(cartTableDrizzle).
+                where(eq(cartTableDrizzle.product_id, (url.get("product_id") as string))
+                    && eq(cartTableDrizzle.product_id, (url.get("user_id") as string))
+                ).returning();
+
+
+            console.log(responce)
+            return NextResponse.json({ responce })
+
+        }
     } catch (error) {
         console.log("error : ", (error as { message: string }).message)
         return NextResponse.json({ error })
