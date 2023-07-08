@@ -1,23 +1,22 @@
 "use client"
 import { ImGoogle } from "react-icons/im"
 import { cartContext } from '@/global/context';
-import { useContext, useEffect, useState, } from 'react';
-import Link from "next/link";
-import ContextWrapper from "@/global/context";
+import Link from 'next/link';
+import { useContext, useEffect, useState } from 'react';
+import toast, { Toaster } from "react-hot-toast";
 
-
-interface SignupFormData {
+type SignupFormData = {
     fullName: string;
     email: string;
     password: string;
 };
 
 
-// const notificationError = (title: string) => {
-//     toast(title, {
-//         position: "top-right"
-//     })
-// };
+const notificationError = (title: string) => {
+    toast(title, {
+        position: "top-right"
+    })
+};
 
 const SignupFormComp = () => {
     let { errorsOfFirebase, signUpUser, userData, signUpViaGoogle, loading, sendEmailVerificationCode } = useContext(cartContext);
@@ -26,9 +25,9 @@ const SignupFormComp = () => {
         if (userData) {
             window.location.href = "/"
         }
-        //     if (errorsOfFirebase.errorMessage.length > 0) {
-        //         notificationError(errorsOfFirebase.errorMessage)
-        // };
+        if (errorsOfFirebase.errorMessage.length > 0) {
+            notificationError(errorsOfFirebase.errorMessage)
+        };
     }, [userData, errorsOfFirebase]);
 
 
@@ -41,19 +40,17 @@ const SignupFormComp = () => {
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     function handleSignupWithGoogle() {
-        console.log("callleds")
         signUpViaGoogle();
     }
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData((prevData: any) => ({
+        setFormData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
     };
 
     const handleSignup = () => {
-
         const { fullName, email, password } = formData;
         const validationErrors: { [key: string]: string } = {};
 
@@ -84,7 +81,7 @@ const SignupFormComp = () => {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
-            {/* <Toaster /> */}
+            <Toaster />
             <div className="bg-slate-100 shadow-2xl border-t-8 border-pink-700 rounded px-4 md:px-8 pt-6 pb-8">
                 <h2 className="text-2xl font-bold mb-4">Signup</h2>
                 <div className="mb-4">
@@ -163,7 +160,8 @@ const SignupFormComp = () => {
                 {userData && (
                     <div className="mt-3 flex flex-col justify-center items-center">
                         <p>Send Varification Email</p>
-                        <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline"
+                        <button
+                            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline"
                             onClick={sendEmailVerificationCode}>
                             Send
                         </button>
