@@ -6,7 +6,7 @@ import { useContext, useEffect, useState, } from 'react';
 import Link from "next/link";
 // import toast, { Toaster } from "react-hot-toast";
 
-type SignupFormData = {
+interface SignupFormData {
     fullName: string;
     email: string;
     password: string;

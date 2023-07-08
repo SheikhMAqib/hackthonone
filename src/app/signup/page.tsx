@@ -1,10 +1,10 @@
-import SignupFormComp from "@/components/views/Signup";
+// import SignupFormComp from "@/components/views/Signup";
 import ContextWrapper from "@/global/context";
 
 const SignupForm = () => {
     return (
         <ContextWrapper>
-            <SignupFormComp />
+            {/* <SignupFormComp /> */}
         </ContextWrapper>
     );
 };
