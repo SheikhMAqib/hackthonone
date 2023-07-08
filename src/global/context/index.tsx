@@ -4,13 +4,13 @@ import { cartReducer } from "../reducer";
 import { auth } from "@/lib/firebase";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import BASE_PATH_FORAPI from "@/components/shared/BasePath";
 
 export const cartContext = createContext<any>(null);
 
 interface indexForError {
     [key: string]: string
-}
-
+};
 
 
 const ContextWrapper = ({ children }: { children: ReactNode }) => {
@@ -18,23 +18,52 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
     const [userData, setUserData] = useState<any>()
     const [errorViaUserCredential, setErrorViaUserCredential] = useState<indexForError | "">("")
     const [loading, setLoading] = useState(false);
-    const iniatizilerOfCart = {
-        cart: [],
+    const [cartArray, setCartArray] = useState<any>([])
+
+    async function fetchApiForAllCartItems() {
+        let res = await fetch(`${BASE_PATH_FORAPI}/api/cartfunc`);
+        if (!res.ok) {
+            throw new Error("Failed to fetch");
+        }
+        let dataToReturn = await res.json()
+        setCartArray(dataToReturn);
     }
 
-    const [state, dispatch] = useReducer(cartReducer, iniatizilerOfCart)
     useEffect(() => {
-        let cart = localStorage.getItem("cart") as string;
-        if (cart === null) {
-            localStorage.setItem("cart", JSON.stringify(state.cart));
-        } else {
-            iniatizilerOfCart.cart = JSON.parse(cart)
-        }
-    })
+        fetchApiForAllCartItems();
+    }, [])
 
-    useEffect(() => {
-        localStorage.setItem("cart", JSON.stringify(state.cart))
-    }, [state.cart])
+
+    function dispatch(payload: string, data: any) {
+        console.log("dataBase array of cart cartArray :", cartArray);
+        console.log("func running of add to cart");
+        if (payload === "addToCart") {
+            fetch(`${BASE_PATH_FORAPI}/api/cartfunc`, {
+                method: "POST",
+                body: JSON.stringify(data)
+            });
+        }
+
+    }
+
+
+    // const iniatizilerOfCart = {
+    //     cart: [],
+    // }
+
+    // const [state, dispatch] = useReducer(cartReducer, iniatizilerOfCart)
+    // useEffect(() => {
+    //     let cart = localStorage.getItem("cart") as string;
+    //     if (cart === null) {
+    //         localStorage.setItem("cart", JSON.stringify(state.cart));
+    //     } else {
+    //         iniatizilerOfCart.cart = JSON.parse(cart)
+    //     }
+    // })
+
+    // useEffect(() => {
+    //     localStorage.setItem("cart", JSON.stringify(state.cart))
+    // }, [state.cart])
 
 
     let user = auth.currentUser;
@@ -137,7 +166,7 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
 
 
     return (
-        <cartContext.Provider value={{ state, dispatch, updateUserNamePhoto, userData, sendEmailVerificationCode, signUpUser, signUpViaGoogle, signInUser, LogOut, loading }}>
+        <cartContext.Provider value={{ cartArray, dispatch, updateUserNamePhoto, userData, sendEmailVerificationCode, signUpUser, signUpViaGoogle, signInUser, LogOut, loading }}>
             {children}
         </cartContext.Provider>
     )

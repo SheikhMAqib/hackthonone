@@ -18,8 +18,8 @@ type SignupFormData = {
 //     })
 // };
 
-const SignUpForm = () => {
-    let { signUpUser, userData, SignUpViaGoogle, loading, sendEmailVerificationCode } = useContext(cartContext);
+const SignupFormComp = () => {
+    let { errorsOfFirebase, signUpUser, userData, signUpViaGoogle, loading, sendEmailVerificationCode } = useContext(cartContext);
 
     useEffect(() => {
         if (userData) {
@@ -28,8 +28,7 @@ const SignUpForm = () => {
         // if (errorsOfFirebase.errorMessage.length > 0) {
         //     notificationError(errorsOfFirebase.errorMessage)
         // };
-    }, [userData]);
-
+    }, [userData, errorsOfFirebase]);
 
 
     const [formData, setFormData] = useState<SignupFormData>({
@@ -40,7 +39,9 @@ const SignUpForm = () => {
 
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-
+    function handleSignupWithGoogle() {
+        signUpViaGoogle();
+    }
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -48,10 +49,6 @@ const SignUpForm = () => {
             [name]: value,
         }));
     };
-
-
-
-    // signup via Email & password
 
     const handleSignup = () => {
         const { fullName, email, password } = formData;
@@ -81,12 +78,6 @@ const SignUpForm = () => {
             signUpUser(formData.email, formData.password)
         }
     };
-
-
-    // signup via Google
-    function handleSignupWithGoogle() {
-        SignUpViaGoogle();
-    }
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
@@ -181,6 +172,4 @@ const SignUpForm = () => {
     );
 };
 
-
-
-export default SignUpForm
+export default SignupFormComp;

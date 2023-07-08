@@ -52,11 +52,7 @@ export async function DELETE(req: NextRequest) {
                 where(eq(cartTableDrizzle.product_id, (url.get("product_id") as string))
                     && eq(cartTableDrizzle.product_id, (url.get("user_id") as string))
                 ).returning();
-
-
-            console.log(responce)
             return NextResponse.json({ responce })
-
         }
     } catch (error) {
         console.log("error : ", (error as { message: string }).message)

@@ -32,7 +32,11 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
             });
             setAllProductsForCart(data);
         }
+        console.log(allProductsForCart)
     }, [])
+
+
+
     return (
 
         <div className="py-10 px-4 md:px-10">
