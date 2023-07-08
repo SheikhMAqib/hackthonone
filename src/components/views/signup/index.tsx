@@ -1,9 +1,10 @@
 "use client"
 import { ImGoogle } from "react-icons/im"
 import { cartContext } from '@/global/context';
+// import Link from 'next/link';
 import { useContext, useEffect, useState, } from 'react';
 import Link from "next/link";
-
+// import toast, { Toaster } from "react-hot-toast";
 
 type SignupFormData = {
     fullName: string;
@@ -12,7 +13,11 @@ type SignupFormData = {
 };
 
 
-
+// const notificationError = (title: string) => {
+//     toast(title, {
+//         position: "top-right"
+//     })
+// };
 
 const SignupFormComp = () => {
     let { errorsOfFirebase, signUpUser, userData, signUpViaGoogle, loading, sendEmailVerificationCode } = useContext(cartContext);
@@ -21,8 +26,10 @@ const SignupFormComp = () => {
         if (userData) {
             window.location.href = "/"
         }
-
-    }, [userData]);
+        //     if (errorsOfFirebase.errorMessage.length > 0) {
+        //         notificationError(errorsOfFirebase.errorMessage)
+        // };
+    }, [userData, errorsOfFirebase]);
 
 
     const [formData, setFormData] = useState<SignupFormData>({
