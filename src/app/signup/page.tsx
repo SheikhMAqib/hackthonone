@@ -1,4 +1,5 @@
-import SignupFormComp from "@/components/views/Signup/index";
+import SignupFormComp from "../../components/views/Signup";
+// @/components/views/Signup/index
 import ContextWrapper from "@/global/context";
 
 const SignupForm = () => {
