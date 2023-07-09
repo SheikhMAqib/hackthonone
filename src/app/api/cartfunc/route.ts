@@ -1,5 +1,5 @@
 import { cartTableDrizzle, db } from "@/lib/drizzle";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -49,8 +49,9 @@ export async function DELETE(req: NextRequest) {
     try {
         if (url.has("product_id") && url.has("user_id")) {
             let responce = await db.delete(cartTableDrizzle).
-                where(eq(cartTableDrizzle.product_id, (url.get("product_id") as string))
-                    && eq(cartTableDrizzle.product_id, (url.get("user_id") as string))
+                where(
+                    and(eq(cartTableDrizzle.product_id, (url.get("product_id") as string)), eq(cartTableDrizzle.user_id,
+                        (url.get("user_id") as string)))
                 ).returning();
             return NextResponse.json({ responce })
         }

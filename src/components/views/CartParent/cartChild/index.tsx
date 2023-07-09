@@ -1,41 +1,55 @@
 "use client"
-import { oneProductType } from "@/components/utils/ProductsDataArrayAndType"
+import { imagesType, oneProductType } from "@/components/utils/ProductsDataArrayAndType"
 import { cartContext } from "@/global/context"
 import Image from "next/image"
 import { FC, useContext, useEffect, useState } from "react"
 import { RiDeleteBin6Line } from "react-icons/ri"
+import AllProductsCompo from "../../AllProduct"
 import { client } from "../../../../../sanity/lib/client"
+import imageUrlBuilder from '@sanity/image-url'
 
 
 const builder: any = imageUrlBuilder(client);
-
 function urlFor(source: any) {
     return builder.image(source)
 }
 
 
-
 const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProductType> }) => {
     const [allProductsForCart, setAllProductsForCart] = useState<any>();
+    let { userData, cartArray, dispatch } = useContext(cartContext)
 
+    function handleRemove(product_id: string) {
+        if (userData) {
+            let user_id = userData.uuid;
+            dispatch("removeFromCart", { product_id, user_id })
+        }
+    }
     useEffect(() => {
-        let stateStorage: any = localStorage.getItem("cart") as string;
-        stateStorage = JSON.parse(stateStorage);
-        if (stateStorage) {
+
+        if (cartArray.length !== 0) {
             let data = allProductsOfStore.filter((item: oneProductType) => {
-                for (let index = 0; index < stateStorage.length; index++) {
-                    let element = stateStorage[index];
-                    if (element.productId === item._id) {
+                for (let index = 0; index < cartArray.length; index++) {
+                    let element: any = cartArray[index];
+                    if (element.product_id === item._id) {
                         return true
                     };
                 };
             });
             setAllProductsForCart(data);
         }
-        console.log(allProductsForCart)
-    }, [])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cartArray])
 
 
+
+    // function urlFor(arg0: imagesType) {
+    //     throw new Error("Function not implemented.")
+    // }
+
+    // function dispatch(event: MouseEvent<HTMLDivElement, MouseEvent>): void {
+    //     throw new Error("Function not implemented.")
+    // }
 
     return (
 
@@ -60,7 +74,9 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
                                 <div className=" space-y-1 md:space-y-3 w-full ">
                                     <div className="flex justify-between">
                                         <h2 className="md:text-2xl font-light text-gray-700" >{item.productName}</h2>
-                                        < RiDeleteBin6Line size={28} />
+                                        <div onClick={() => { handleRemove(item._id) }}>
+                                            < RiDeleteBin6Line size={28} />
+                                        </div>
                                     </div>
                                     <p className="text-gray-400 font-medium">{item.productTypes[1] ? item.productTypes[1] : "All"}</p>
                                     <h3 className="text-sm md:text-base" >Delivery Estimation</h3>
@@ -102,6 +118,6 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
 
 export default CartComp
 
-function imageUrlBuilder(client: any) {
-    throw new Error("Function not implemented.")
-}
+
+
+

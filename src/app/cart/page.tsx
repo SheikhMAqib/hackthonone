@@ -6,18 +6,15 @@ async function fetchAllStoreProduct() {
     let res = await fetch(`https://q854vsap.api.sanity.io/v2023-05-26/data/query/production?query=*[_type == 'products']`, {
         cache: "no-store",
     })
-    return res.json()
+    return res.json();
 };
-
 
 const Cart = async () => {
     let allProductsOfStore = await fetchAllStoreProduct()
-
     return (
-
-        < CartComp allProductsOfStore={allProductsOfStore.result} />
-
-
+        <ContextWrapper>
+            < CartComp allProductsOfStore={allProductsOfStore.result} />
+        </ContextWrapper>
     )
 }
 

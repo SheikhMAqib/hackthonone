@@ -26,45 +26,32 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
             throw new Error("Failed to fetch");
         }
         let dataToReturn = await res.json()
-        setCartArray(dataToReturn);
-    }
+        setCartArray(dataToReturn.allCartData);
+    };
 
     useEffect(() => {
         fetchApiForAllCartItems();
-    }, [])
+    }, []);
+    console.log("cart Array :", cartArray);
 
-
-    function dispatch(payload: string, data: any) {
-        console.log("dataBase array of cart cartArray :", cartArray);
-        console.log("func running of add to cart");
+    async function dispatch(payload: string, data: any) {
         if (payload === "addToCart") {
-            fetch(`${BASE_PATH_FORAPI}/api/cartfunc`, {
+            console.log("func running of add to cart");
+            await fetch(`${BASE_PATH_FORAPI}/api/cartfunc`, {
                 method: "POST",
                 body: JSON.stringify(data)
             });
+        } else if (payload === "removeFromCart") {
+            console.log("func running remove from  cart");
+            let dataa = await fetch(`${BASE_PATH_FORAPI}/api/cartfunc?product_id=${data.product_id}&user_id=${data.user_id}`, {
+                method: "DELETE",
+            });
+            let Notdata = await dataa.json();
+            console.log(Notdata, "productid:", data.product_id, "userid : ", data.user_id)
+
         }
-
+        fetchApiForAllCartItems();
     }
-
-
-    // const iniatizilerOfCart = {
-    //     cart: [],
-    // }
-
-    // const [state, dispatch] = useReducer(cartReducer, iniatizilerOfCart)
-    // useEffect(() => {
-    //     let cart = localStorage.getItem("cart") as string;
-    //     if (cart === null) {
-    //         localStorage.setItem("cart", JSON.stringify(state.cart));
-    //     } else {
-    //         iniatizilerOfCart.cart = JSON.parse(cart)
-    //     }
-    // })
-
-    // useEffect(() => {
-    //     localStorage.setItem("cart", JSON.stringify(state.cart))
-    // }, [state.cart])
-
 
     let user = auth.currentUser;
 
@@ -107,8 +94,9 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
 
     function signUpUser(email: string, password: string) {
         setLoading(true);
-        return createUserWithEmailAndPassword(auth, email, password).then((res: any) => {
+        createUserWithEmailAndPassword(auth, email, password).then((res: any) => {
             setLoading(false);
+            router.push("/");
         }).catch((res: any) => {
             console.log("error:", res);
             setLoading(false)
@@ -122,9 +110,9 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
         setLoading(true);
         return signInWithEmailAndPassword(auth, email, password).then((res: any) => {
             setLoading(false);
-            router.push("/");
-            console.log("res :", res);
+            // router.push("/");
         }).catch((res: any) => {
+            console.log("res :", res);
             setErrorViaUserCredential({
                 signInError: "Error occured via signin with email and password"
             })

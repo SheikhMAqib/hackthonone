@@ -17,9 +17,7 @@ function urlFor(source: any) {
 
 
 const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
-    let { dispatch } = useContext(cartContext);
-
-
+    let { userData, dispatch } = useContext(cartContext);
     const [imageForPreviewOfSelected, setImageForPreviewOfSelected] = useState<string>(item.image[0]._key);
     const [quantity, setQuantity] = useState(1);
 
@@ -39,18 +37,28 @@ const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
             icon: '💕',
             position: 'top-right'
         })
-    }
+    };
+
+    const notificationError = (title: string) => {
+        toast(title, {
+            duration: 1000,
+            position: 'top-right'
+        })
+    };
     // AddTocart 
     function handleAddToCart() {
-        let dataAddToInCart = {
-            product_id: item._id,
-            quantity: quantity,
-            user_id: "userId Unique"
-        }
-        dispatch("addToCart", dataAddToInCart)
-        // dispatch({ payload: "addToCart", data: dataAddToInCart })
+        if (userData) {
 
-        notification(item.productName);
+            let dataAddToInCart = {
+                product_id: item._id,
+                quantity: quantity,
+                user_id: userData.uuid,
+            }
+            dispatch("addToCart", dataAddToInCart)
+            notification(item.productName);
+        } else {
+            notificationError("Please login first");
+        }
     };
 
 
