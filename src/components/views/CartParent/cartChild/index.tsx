@@ -43,14 +43,6 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
 
 
 
-    // function urlFor(arg0: imagesType) {
-    //     throw new Error("Function not implemented.")
-    // }
-
-    // function dispatch(event: MouseEvent<HTMLDivElement, MouseEvent>): void {
-    //     throw new Error("Function not implemented.")
-    // }
-
     return (
 
         <div className="py-10 px-4 md:px-10">

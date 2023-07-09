@@ -35,7 +35,10 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
     let request = await req.json();
     try {
-        let responce = await db.update(cartTableDrizzle).set(request).where(eq(cartTableDrizzle.product_id, request.product_id)).returning();
+        let responce = await db.update(cartTableDrizzle).set(request).
+            where(
+                and(eq(cartTableDrizzle.product_id, request.product_id), eq(cartTableDrizzle.user_id, request.user_id))
+            ).returning();
         return NextResponse.json({ responce })
     } catch (error) {
         console.log("error : ", (error as { message: string }).message)

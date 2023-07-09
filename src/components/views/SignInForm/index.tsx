@@ -1,31 +1,33 @@
 "use client"
 import { cartContext } from '@/global/context';
 import { useContext, useEffect, useState } from 'react';
-// import toast, { Toaster } from 'react-hot-toast';
-// import { ImGoogle } from 'react-icons/im';
+import toast, { Toaster } from 'react-hot-toast';
+import { ImGoogle } from 'react-icons/im';
 
-// const notificationError = (title: string) => {
-//     toast(title, {
-//         position: "top-right"
-//     })
-// };
+const notificationError = (title: string) => {
+    toast(title, {
+        position: "top-right"
+    })
+};
 
 const SignInForm = () => {
     let { signUpViaGoogle, userData, signInUser, loading, errorsOfFirebase } = useContext(cartContext)
     const [formData, setFormData] = useState({ email: '', password: '' });
 
+
+
     useEffect(() => {
         if (userData) {
             window.location.href = "/"
         }
-        // if (errorsOfFirebase.errorMessage.length > 0) {
-        //     notificationError(errorsOfFirebase.errorMessage)
-        // };
+        if (errorsOfFirebase.errorMessage.length > 0) {
+            notificationError(errorsOfFirebase.errorMessage)
+        }
     }, [userData, errorsOfFirebase]);
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+        const { name, value, } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
@@ -36,7 +38,7 @@ const SignInForm = () => {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
-            {/* <Toaster /> */}
+            <Toaster />
             <div className="max-w-md w-full bg-gra-100 p-8 shadow-lg border-t-8 rounded-xl border-gray-700">
                 <h2 className="text-2xl mb-4 text-gray-700 font-bold">Sign In</h2>
                 <div className="mb-4">
@@ -63,7 +65,7 @@ const SignInForm = () => {
                         onChange={handleChange}
                     />
                 </div>
-                {/* <div className="flex items-center justify-center py-3">
+                <div className="flex items-center justify-center py-3">
                     <button
                         className="border flex gap-2 items-center justify-center bg-purple-100 hover:bg-purple-200 text-gray-700 font-semibold py-2 px-6 rounded focus:outline-none focus:shadow-outline"
                         type="button"
@@ -72,7 +74,7 @@ const SignInForm = () => {
                         <ImGoogle size={25} fill="#ced70c" />
                         SignIn With Google
                     </button>
-                </div> */}
+                </div>
                 <button
                     disabled={loading}
                     className="bg-purple-700 text-white rounded-md py-2 px-4 font-medium"

@@ -21,7 +21,6 @@ const Navbar = () => {
 
 
   function handleSearchCalledFunc(e: any) {
-    console.log(e.key, e.keyCode)
     if (e.key === "Enter" && e.keyCode === 13) {
       router.push(`/search/${searchQuery}`)
 

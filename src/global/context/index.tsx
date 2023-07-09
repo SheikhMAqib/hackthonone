@@ -19,6 +19,11 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
     const [errorViaUserCredential, setErrorViaUserCredential] = useState<indexForError | "">("")
     const [loading, setLoading] = useState(false);
     const [cartArray, setCartArray] = useState<any>([])
+    const [errorsOfFirebase, setErrorsOfFirebase] = useState({
+        key: "",
+        errorMessage: ""
+    })
+
 
     async function fetchApiForAllCartItems() {
         let res = await fetch(`${BASE_PATH_FORAPI}/api/cartfunc`);
@@ -32,7 +37,6 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         fetchApiForAllCartItems();
     }, []);
-    console.log("cart Array :", cartArray);
 
     async function dispatch(payload: string, data: any) {
         if (payload === "addToCart") {
@@ -47,8 +51,13 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
                 method: "DELETE",
             });
             let Notdata = await dataa.json();
-            console.log(Notdata, "productid:", data.product_id, "userid : ", data.user_id)
-
+        } else if (payload === "updateCart") {
+            console.log("func running update cart");
+            let dataa = await fetch(`${BASE_PATH_FORAPI}/api/cartfunc`, {
+                method: "PUT",
+                body: JSON.stringify(data)
+            });
+            let Notdata = await dataa.json();
         }
         fetchApiForAllCartItems();
     }
@@ -57,7 +66,6 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         onAuthStateChanged(auth, (user: any) => {
-            console.log(user)
             if (user) {
                 setUserData({
                     displayName: user.displayName,
@@ -71,7 +79,7 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
             }
         });
     }, [])
-    console.log(user)
+
 
     let provider = new GoogleAuthProvider()
 
@@ -98,7 +106,12 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
             setLoading(false);
             router.push("/");
         }).catch((res: any) => {
-            console.log("error:", res);
+            let error = res.code.split("/")
+            error = error[error.length - 1];
+            setErrorsOfFirebase({
+                key: "Error occurred while signing up",
+                errorMessage: error,
+            })
             setLoading(false)
         });
         setLoading(false);
@@ -108,14 +121,16 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
 
     function signInUser(email: string, password: string) {
         setLoading(true);
-        return signInWithEmailAndPassword(auth, email, password).then((res: any) => {
+        signInWithEmailAndPassword(auth, email, password).then((res: any) => {
             setLoading(false);
-            // router.push("/");
         }).catch((res: any) => {
-            console.log("res :", res);
-            setErrorViaUserCredential({
-                signInError: "Error occured via signin with email and password"
+            let error = res.code.split("/")
+            error = error[error.length - 1];
+            setErrorsOfFirebase({
+                key: "Error occurred while signing in",
+                errorMessage: error,
             })
+
         });
         setLoading(false);
     }
@@ -146,15 +161,15 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
             }).then(() => {
                 setLoading(false);
             }).catch((error: any) => {
-                console.log(error)
                 setLoading(false);
+                console.log(error)
             });
         }
     }
 
 
     return (
-        <cartContext.Provider value={{ cartArray, dispatch, updateUserNamePhoto, userData, sendEmailVerificationCode, signUpUser, signUpViaGoogle, signInUser, LogOut, loading }}>
+        <cartContext.Provider value={{ cartArray, dispatch, errorsOfFirebase, updateUserNamePhoto, userData, sendEmailVerificationCode, signUpUser, signUpViaGoogle, signInUser, LogOut, loading }}>
             {children}
         </cartContext.Provider>
     )
