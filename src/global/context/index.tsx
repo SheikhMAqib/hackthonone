@@ -31,7 +31,11 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
             throw new Error("Failed to fetch");
         }
         let dataToReturn = await res.json()
-        setCartArray(dataToReturn.allCartData);
+        await setCartArray((prev: any) => dataToReturn.allCartData);
+        if (dataToReturn) {
+            console.log("cart :", cartArray)
+            return true
+        }
     };
 
     useEffect(() => {
@@ -52,14 +56,21 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
             });
             let Notdata = await dataa.json();
         } else if (payload === "updateCart") {
-            console.log("func running update cart");
+            setLoading(true);
             let dataa = await fetch(`${BASE_PATH_FORAPI}/api/cartfunc`, {
                 method: "PUT",
                 body: JSON.stringify(data)
             });
             let Notdata = await dataa.json();
+            console.log("func running update cart", Notdata);
+            setLoading(false);
         }
-        fetchApiForAllCartItems();
+        let resp = await fetchApiForAllCartItems();
+        if (resp) {
+            return "sucess"
+        } else {
+            return "unSucess"
+        }
     }
 
     let user = auth.currentUser;

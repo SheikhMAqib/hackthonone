@@ -18,7 +18,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
     let request = await req.json();
     try {
-        if (request.product_id && request.quantity && request.user_id) {
+        if (request.product_id && request.quantity && request.user_id && request.price) {
             let responce = await db.insert(cartTableDrizzle).values(request).returning();
             return NextResponse.json({ responce })
         } else {
@@ -35,6 +35,7 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
     let request = await req.json();
     try {
+
         let responce = await db.update(cartTableDrizzle).set(request).
             where(
                 and(eq(cartTableDrizzle.product_id, request.product_id), eq(cartTableDrizzle.user_id, request.user_id))

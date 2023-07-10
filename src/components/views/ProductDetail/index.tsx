@@ -30,8 +30,13 @@ const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
                 product_id: item._id,
                 quantity: quantity,
                 user_id: userData.uuid,
+                price: item.price,
+            };
+            if (!isExsits) {
+                dispatch("addToCart", dataAddToInCart);
+            } else {
+                dispatch("Cart", dataAddToInCart)
             }
-            // dispatch("addToCart", dataAddToInCart)
             notification(item.productName);
         } else {
             notificationError("Please login first");
