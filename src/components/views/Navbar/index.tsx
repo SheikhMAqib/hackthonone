@@ -56,21 +56,21 @@ const Navbar = () => {
             {/* search bar */}
 
             <div className="border flex items-center text-gray-700 px-3 rounded-md ">
-              <Link href={`/search/${searchQuery}`}>
-                <BiSearch />
-              </Link>
+              <Link href={`/search/${searchQuery}`}><BiSearch /></Link>
               <input
                 type="text"
                 value={searchQuery}
                 onKeyDown={handleSearchCalledFunc}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="focus:outline-none pl-1 py-1 w-80 "
+                className="focus:outline-none pl-1 py-1 w-80 rounded-r-md "
                 placeholder="Search in Our Store"
               />
             </div>
             <Cartstate />
           </div>
-
+          <Link href={"/cart"}>
+            <Cartstate />
+          </Link>
           <div className="cursor-pointer" onClick={() => setNavbarOpen(!isNavbarOpen)}>
             {isNavbarOpen ? (
               <div className="flex lg:hidden ">
@@ -83,13 +83,17 @@ const Navbar = () => {
             )}
           </div>
         </div>
-        {isNavbarOpen && <MobileNavbar />}
+        {
+          isNavbarOpen && <MobileNavbar />
+        }
       </div>
     </ContextWrapper>
-  );
-};
+  )
+}
 
 export default Navbar;
+
+
 const MobileNavbar = () => {
   return (
     <div className="w-full px-6 py-4 bg-gray-100">

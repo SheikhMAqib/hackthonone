@@ -1,29 +1,22 @@
-
 import { FC } from "react"
 import { HiOutlineChevronDown } from "react-icons/hi";
 import { NavbarArray, NavbarItemType, } from "@/components/utils/NavbarArrayAndTypes";
 import Link from "next/link";
 import { useState } from "react";
 
-
-
-
 const Expand: FC<{ item: NavbarItemType }> = ({ item, }) => {
     const [isExpended, setExpended] = useState<boolean>(false);
     const [isTimeOut, setTimeOut] = useState<boolean>(false);
-
 
     function handleExpand() {
         setExpended(!isExpended)
         setTimeout(() => {
             setTimeOut(!isTimeOut);
         }, 100);
-
     }
 
 
     return (
-
         <li
             className={` ${isExpended ? "h-48" : "h-12"} duration-300  list-none `}>
             <div onClick={handleExpand} className="flex  py-2 px-3 items-center justify-between rounded-md duration-300 hover:bg-purple-600">
@@ -38,7 +31,6 @@ const Expand: FC<{ item: NavbarItemType }> = ({ item, }) => {
             </div>
 
         </li>
-
     )
 }
 
