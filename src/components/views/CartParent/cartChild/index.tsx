@@ -10,15 +10,10 @@ import imageUrlBuilder from '@sanity/image-url'
 import toast, { Toaster } from "react-hot-toast"
 import { useRouter } from "next/navigation"
 
-
-
-
 const builder: any = imageUrlBuilder(client);
 function urlFor(source: any) {
     return builder.image(source)
-}
-
-
+};
 const notificationError = (title: string) => {
     toast(title, {
         duration: 1000,
@@ -30,34 +25,24 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
     const [allProductsForCart, setAllProductsForCart] = useState<any>();
     let { userData, cartArray, dispatch, loading } = useContext(cartContext)
     const [totalPrice, setTotalPrice] = useState(0);
-    const [allowedToAdd, setAllowedToAdd] = useState(true)
     let router = useRouter();
 
-    function PriceSubTotal(round: number) {
+    function PriceSubTotal() {
+        let orignalToSend: number = 0;
         for (let index = 0; index < cartArray.length; index++) {
-            setAllowedToAdd(false);
             const element = cartArray[index];
             let subTotalPrice = element.quantity * element.price;
+            orignalToSend = orignalToSend + subTotalPrice;
             if (subTotalPrice) {
-                if (round === 1) {
-                    setTotalPrice(totalPrice + subTotalPrice);
-                } else if (round === 2) {
-                    setTotalPrice((prev: any) => subTotalPrice);
-                    router.refresh();
-                    // console.log(cartArray, totalPrice)
-                }
+                setTotalPrice(orignalToSend);
+                router.refresh();
             }
         }
     }
 
-    // if (cartArray.length !== 0) {
-    //     if (allowedToAdd) {
-    //         PriceSubTotal(1);
-    //     }
-    // }
-
     useEffect(() => {
-        PriceSubTotal(2);
+        PriceSubTotal();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [allProductsForCart])
 
 
@@ -82,13 +67,6 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cartArray])
-
-
-    // if (allProductsForCart) {
-    //     allProductsForCart.forEach((element: oneProductType) => {
-    //         setTotalPrice(element.price)
-    //     });
-    // }
 
 
     async function handleDecrementByOne(product_id: string, price: any) {
@@ -120,17 +98,14 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
             }
         });
 
-        let returnedVal = await dispatch("updateCart", {
+        await dispatch("updateCart", {
             product_id: product_id,
             quantity: stableQuantity + 1,
             user_id: userData.uuid,
             price: price,
         });
         notificationError("Incremented by One")
-        console.log(returnedVal)
-        // if (returnedVal === "sucess") {
-        //     PriceSubTotal(2);
-        // }
+
     }
     return (
         <div className="py-10 px-4 md:px-10">
@@ -171,10 +146,6 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
                                                     cartArray.map((subItem: any) => {
                                                         let matching = subItem.product_id === item._id
                                                         let quantity = subItem.quantity;
-
-
-
-
                                                         if (matching) {
                                                             return quantity;
                                                         } else {
@@ -187,7 +158,6 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
                                                 onClick={() => handleIncrementByOne(item._id, item.price)}
                                                 disabled={loading}
                                                 className=" select-none cursor-pointer flex justify-center w-8 h-8 rounded-full border  border-gray-800"
-
                                             >
                                                 +
                                             </button>
@@ -199,7 +169,6 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
                             </div>
                         ))
                     }
-
                 </div>
 
                 <div className="basis-1/4 space-y-6  px-6">
@@ -217,8 +186,6 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
             </div>
 
         </div >
-
-
     )
 }
 
