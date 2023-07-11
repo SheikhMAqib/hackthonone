@@ -9,6 +9,9 @@ import { client } from "../../../../../sanity/lib/client"
 import imageUrlBuilder from '@sanity/image-url'
 import toast, { Toaster } from "react-hot-toast"
 import { useRouter } from "next/navigation"
+import BASE_PATH_FORAPI from "@/components/shared/BasePath"
+import { url } from "inspector"
+import { boolean } from "drizzle-orm/pg-core"
 
 const builder: any = imageUrlBuilder(client);
 function urlFor(source: any) {
@@ -22,8 +25,9 @@ const notificationError = (title: string) => {
 };
 
 const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProductType> }) => {
+    const [loadings, setLoadings] = useState<boolean>(false);
     const [allProductsForCart, setAllProductsForCart] = useState<any>();
-    let { userData, cartArray, dispatch, loading } = useContext(cartContext)
+    let { userData, cartArray, dispatch, loading, setLoading } = useContext(cartContext)
     const [totalPrice, setTotalPrice] = useState(0);
     let router = useRouter();
 
@@ -58,7 +62,7 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
             let data = allProductsOfStore.filter((item: oneProductType) => {
                 for (let index = 0; index < cartArray.length; index++) {
                     let element: any = cartArray[index];
-                    if (element.product_id === item._id) {
+                    if (element.product_id === item._id && element.user_id === userData.uuid) {
                         return true
                     };
                 };
@@ -105,8 +109,20 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
             price: price,
         });
         notificationError("Incremented by One")
-
     }
+
+    async function handleProcessCheckout() {
+        setLoadings(true);
+        let linkOrg: any = await fetch(`${BASE_PATH_FORAPI}/api/checkout_sessions`, {
+            method: "POST",
+            body: JSON.stringify(allProductsForCart)
+        })
+        let { link } = await linkOrg.json()
+        setLoadings(false);
+        window.location.href = link
+    }
+
+
     return (
         <div className="py-10 px-4 md:px-10">
             <Toaster />
@@ -181,7 +197,13 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
                         <p className="text-lg font-light">Subtotal:</p>
                         <p>${totalPrice}</p>
                     </div>
-                    <button className="text-white bg-gray-900 border border-gray-500 px-4 py-2 w-full">Process to Checkout</button>
+                    <button
+                        onClick={handleProcessCheckout}
+                        className="text-white bg-gray-900 border border-gray-500 px-4 py-2 w-full">
+                        {loadings ? "loading ..." :
+                            "Process to Checkout"
+                        }
+                    </button>
                 </div>
             </div>
 
