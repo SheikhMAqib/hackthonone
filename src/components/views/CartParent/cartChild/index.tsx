@@ -50,11 +50,17 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
         }
     }
 
-    if (cartArray.length !== 0) {
-        if (allowedToAdd) {
-            PriceSubTotal(1);
-        }
-    }
+    // if (cartArray.length !== 0) {
+    //     if (allowedToAdd) {
+    //         PriceSubTotal(1);
+    //     }
+    // }
+
+    useEffect(() => {
+        PriceSubTotal(2);
+    }, [allProductsForCart])
+
+
 
     function handleRemove(product_id: string) {
         if (userData) {
@@ -63,7 +69,6 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
         }
     }
     useEffect(() => {
-
         if (cartArray.length !== 0) {
             let data = allProductsOfStore.filter((item: oneProductType) => {
                 for (let index = 0; index < cartArray.length; index++) {
@@ -74,7 +79,6 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
                 };
             });
             setAllProductsForCart(data);
-
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cartArray])
@@ -94,7 +98,8 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
                 stableQuantity = element.quantity
             }
         });
-        if (stableQuantity - 1 <= 1) {
+
+        if (stableQuantity - 1 <= 0) {
             notificationError("Did not accept lower than 1")
         } else {
             await dispatch("updateCart", {
@@ -105,7 +110,7 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
             });
             notificationError("Decremented by One")
         }
-        PriceSubTotal(2);
+
     }
     async function handleIncrementByOne(product_id: string, price: any) {
         let stableQuantity: number = 0;
@@ -123,9 +128,9 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
         });
         notificationError("Incremented by One")
         console.log(returnedVal)
-        if (returnedVal === "sucess") {
-            PriceSubTotal(2);
-        }
+        // if (returnedVal === "sucess") {
+        //     PriceSubTotal(2);
+        // }
     }
     return (
         <div className="py-10 px-4 md:px-10">
