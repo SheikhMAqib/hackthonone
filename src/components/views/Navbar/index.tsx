@@ -66,11 +66,11 @@ const Navbar = () => {
                 placeholder="Search in Our Store"
               />
             </div>
-            <Cartstate />
+            <Link href={"/cart"}>
+              <Cartstate />
+            </Link>
           </div>
-          <Link href={"/cart"}>
-            <Cartstate />
-          </Link>
+
           <div className="cursor-pointer" onClick={() => setNavbarOpen(!isNavbarOpen)}>
             {isNavbarOpen ? (
               <div className="flex lg:hidden ">
@@ -83,17 +83,13 @@ const Navbar = () => {
             )}
           </div>
         </div>
-        {
-          isNavbarOpen && <MobileNavbar />
-        }
+        {isNavbarOpen && <MobileNavbar />}
       </div>
     </ContextWrapper>
-  )
-}
+  );
+};
 
 export default Navbar;
-
-
 const MobileNavbar = () => {
   return (
     <div className="w-full px-6 py-4 bg-gray-100">
