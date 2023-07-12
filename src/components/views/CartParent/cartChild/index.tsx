@@ -49,6 +49,7 @@ const CartComp = ({ allProductsOfStore }: { allProductsOfStore: Array<oneProduct
 
     useEffect(() => {
         PriceSubTotal();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [allProductsForCart])
 
 
