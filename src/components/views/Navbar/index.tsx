@@ -52,7 +52,6 @@ const Navbar = () => {
                 </li>
               ))}
             </ul>
-            {/* search bar */}
 
             <div className="border flex items-center text-gray-700 px-3 rounded-md ">
               <Link href={`/search/${searchQuery}`}><BiSearch /></Link>
