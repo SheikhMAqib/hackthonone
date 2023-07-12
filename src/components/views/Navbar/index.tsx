@@ -72,15 +72,15 @@ const Navbar = () => {
           </div>
 
           <div className="cursor-pointer" onClick={() => setNavbarOpen(!isNavbarOpen)}>
-            {isNavbarOpen ? (
+            {isNavbarOpen ?
               <div className="flex lg:hidden ">
                 <IoMdClose size={29} />
               </div>
-            ) : (
+              :
               <div className="flex lg:hidden">
                 <GiHamburgerMenu size={25} />
               </div>
-            )}
+            }
           </div>
         </div>
         {isNavbarOpen && <MobileNavbar />}
@@ -90,6 +90,8 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
 const MobileNavbar = () => {
   return (
     <div className="w-full px-6 py-4 bg-gray-100">
@@ -101,5 +103,5 @@ const MobileNavbar = () => {
         })
       }
     </div>
-  );
-};
+  )
+}
