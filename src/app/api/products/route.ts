@@ -21,9 +21,3 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ orignalData })
 };
-
-
-
-
-// let response = await client.fetch(`*[_type == "products"]`);
-// return NextResponse.json({ response })

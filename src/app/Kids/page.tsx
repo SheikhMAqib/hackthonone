@@ -1,7 +1,6 @@
 import { oneProductType, responseType } from "@/components/utils/ProductsDataArrayAndType";
 import Card from "@/components/views/Card";
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
-import { FC } from "react"
+
 
 
 async function fetchAllProductsData() {
